@@ -25,4 +25,24 @@ class NProgressAsset extends AssetBundle
     public $depends = [
         'yii\web\JqueryAsset',
     ];
+    
+    /**
+     * Registers the CSS and JS files with the given view.
+     * @param \yii\web\View $view the view that the asset files are to be registered with.
+     */
+    public function registerAssetFiles($view)
+    {
+        $manager = $view->getAssetManager();
+        
+        if (isset($manager->bundles['yii\widgets\PjaxAsset'])) {
+            $jsPjax = <<<PJAX
+jQuery(document).on('pjax:start', function() { NProgress.start(); });
+jQuery(document).on('pjax:end',   function() { NProgress.done();  });                    
+PJAX;
+            $view->registerJs($jsPjax, \yii\web\View::POS_END);
+            $this->depends[] = 'yii\widgets\PjaxAsset';
+        }
+        
+        parent::registerAssetFiles($view);
+    }
 }
