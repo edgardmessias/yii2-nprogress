@@ -26,16 +26,26 @@ class NProgressAsset extends AssetBundle
     public $js = [
         'nprogress.js'
     ];
+    public $jsOptions = [
+        'position' => View::POS_END
+    ];
     public $depends = [
     ];
-    
-    
+
     /**
      * The NProgress Configuration
      * @see https://github.com/rstacruz/nprogress#configuration
      * @var null|array
      */
     public $configuration = null;
+
+    /**
+     * Show NProgress during page loading
+     * @var boolean
+     * @since 0.2.0
+     */
+    public $page_loading = false;
+
     /**
      * Show NProgress for pjax:start and pjax:end events
      * @var boolean
@@ -54,15 +64,18 @@ class NProgressAsset extends AssetBundle
      */
     public function registerAssetFiles($view)
     {
-        
+
+        if ($this->page_loading) {
+            $view->registerJs('NProgress.start();', View::POS_BEGIN);
+            $view->registerJs('NProgress.done();', View::POS_LOAD);
+            $this->jsOptions['position'] = View::POS_HEAD;
+        }
+
         if ($this->configuration !== null) {
             $view->registerJs('NProgress.configure('
                     . Json::encode($this->configuration)
-                    . ');', View::POS_END);
+                    . ');', $this->jsOptions['position']);
         }
-        
-        
-        $manager = $view->getAssetManager();
 
         if ($this->pjax_events) {
             $jsPjax = <<<PJAX
