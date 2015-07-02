@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -7,7 +8,9 @@
 
 namespace edgardmessias\assets\nprogress;
 
+use yii\helpers\Json;
 use yii\web\AssetBundle;
+use yii\web\View;
 
 /**
  * @author Edgard Messias <edgardmessias@gmail.com>
@@ -15,6 +18,7 @@ use yii\web\AssetBundle;
  */
 class NProgressAsset extends AssetBundle
 {
+
     public $sourcePath = '@bower/nprogress';
     public $css = [
         'nprogress.css',
@@ -23,26 +27,61 @@ class NProgressAsset extends AssetBundle
         'nprogress.js'
     ];
     public $depends = [
-        'yii\web\JqueryAsset',
     ];
     
+    
+    /**
+     * The NProgress Configuration
+     * @see https://github.com/rstacruz/nprogress#configuration
+     * @var null|array
+     */
+    public $configuration = null;
+    /**
+     * Show NProgress for pjax:start and pjax:end events
+     * @var boolean
+     */
+    public $pjax_events = true;
+
+    /**
+     * Show NProgress for ajaxStart and ajaxComplete events
+     * @var boolean
+     */
+    public $jquery_ajax_events = false;
+
     /**
      * Registers the CSS and JS files with the given view.
-     * @param \yii\web\View $view the view that the asset files are to be registered with.
+     * @param View $view the view that the asset files are to be registered with.
      */
     public function registerAssetFiles($view)
     {
-        $manager = $view->getAssetManager();
         
-        if (isset($manager->bundles['yii\widgets\PjaxAsset'])) {
+        if ($this->configuration !== null) {
+            $view->registerJs('NProgress.configure('
+                    . Json::encode($this->configuration)
+                    . ');', View::POS_END);
+        }
+        
+        
+        $manager = $view->getAssetManager();
+
+        if ($this->pjax_events) {
             $jsPjax = <<<PJAX
 jQuery(document).on('pjax:start', function() { NProgress.start(); });
 jQuery(document).on('pjax:end',   function() { NProgress.done();  });                    
 PJAX;
-            $view->registerJs($jsPjax, \yii\web\View::POS_END);
+            $view->registerJs($jsPjax, View::POS_END);
             $this->depends[] = 'yii\widgets\PjaxAsset';
         }
-        
+
+        if ($this->jquery_ajax_events) {
+            $jsAjax = <<<AJAX
+jQuery(document).on('ajaxStart',    function() { NProgress.start(); });
+jQuery(document).on('ajaxComplete', function() { NProgress.done();  });                    
+AJAX;
+            $view->registerJs($jsAjax, View::POS_END);
+            $this->depends[] = 'yii\widgets\JqueryAsset';
+        }
+
         parent::registerAssetFiles($view);
     }
 }
