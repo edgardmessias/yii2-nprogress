@@ -28,4 +28,5 @@ Usage
 Once the extension is installed, simply use it in your view code by  :
 
 ```php
-<?= \edgardmessias\assets\nprogress\NProgressAsset::register($this); ?>```
+<?php \edgardmessias\assets\nprogress\NProgressAsset::register($this); ?>
+```
