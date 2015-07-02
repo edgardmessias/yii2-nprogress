@@ -45,6 +45,7 @@ To change settings, simply add the following code in your configuration
                     'minimum' => 0.08,
                     'showSpinner' => true,
                 ],
+                'page_loading' => false,
                 'pjax_events' => true,
                 'jquery_ajax_events' => false,
             ],
@@ -55,5 +56,6 @@ To change settings, simply add the following code in your configuration
 
 ### Settings
  * `configuration`: The [NProgress Configuration]( https://github.com/rstacruz/nprogress#configuration) (Default: `null`)
+ * `page_loading`: Show NProgress during page loading (Default: `false`)
  * `pjax_events`: Show NProgress for pjax:start and pjax:end events (Default: `true`)
  * `jquery_ajax_events`: Show NProgress for ajaxStart and ajaxComplete events (Default: `false`)

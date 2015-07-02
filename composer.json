@@ -2,8 +2,8 @@
     "name": "edgardmessias/yii2-nprogress",
     "description": "Slim progress bars for Ajax'y applications. Inspired by Google, YouTube, and Medium for Yii2 Framework.",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension","nprogress"],
-    "license": "BSD-2-Clause",
+    "keywords": ["yii2","extension","nprogress","assets","pjax"],
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Edgard Messias",
