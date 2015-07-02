@@ -30,3 +30,30 @@ Once the extension is installed, simply use it in your view code by  :
 ```php
 <?php \edgardmessias\assets\nprogress\NProgressAsset::register($this); ?>
 ```
+
+Customization
+-------------
+
+To change settings, simply add the following code in your configuration
+
+```php
+'components' => [
+    'assetManager' => [
+        'bundles' => [
+            'edgardmessias\assets\nprogress\NProgressAsset' => [
+                'configuration' => [
+                    'minimum' => 0.08,
+                    'showSpinner' => true,
+                ],
+                'pjax_events' => true,
+                'jquery_ajax_events' => false,
+            ],
+        ],
+    ],
+],
+```
+
+### Settings
+ * `configuration`: The [NProgress Configuration]( https://github.com/rstacruz/nprogress#configuration) (Default: `null`)
+ * `pjax_events`: Show NProgress for pjax:start and pjax:end events (Default: `true`)
+ * `jquery_ajax_events`: Show NProgress for ajaxStart and ajaxComplete events (Default: `false`)
